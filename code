@@ -1,0 +1,104 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int MAX_BOOKS = 100; // Maximum number of books in the library
+
+struct Book {
+    string title;
+    string author;
+    int year;
+};
+
+int numBooks = 0;
+Book books[MAX_BOOKS];
+
+void addBook() {
+    if (numBooks == MAX_BOOKS) {
+        cout << "Library is full. Cannot add more books." << endl;
+        return;
+    }
+
+    Book newBook;
+    cout << "Enter title: ";
+    cin.ignore(); // Ignore the newline character left by previous input
+    getline(cin, newBook.title);
+    cout << "Enter author: ";
+    getline(cin, newBook.author);
+    cout << "Enter year: ";
+    cin >> newBook.year;
+
+    books[numBooks++] = newBook;
+    cout << "Book added successfully." << endl;
+}
+
+void deleteBook() {
+    if (numBooks == 0) {
+        cout << "Library is empty. Nothing to delete." << endl;
+        return;
+    }
+
+    int bookIndex;
+    cout << "Enter the index of the book you want to delete (0-" << numBooks - 1 << "): ";
+    cin >> bookIndex;
+
+    if (bookIndex < 0 || bookIndex >= numBooks) {
+        cout << "Invalid index. Please try again." << endl;
+        return;
+    }
+
+    for (int i = bookIndex; i < numBooks - 1; ++i) {
+        books[i] = books[i + 1];
+    }
+
+    numBooks--;
+    cout << "Book deleted successfully." << endl;
+}
+
+void displayBooks() {
+    if (numBooks == 0) {
+        cout << "Library is empty." << endl;
+        return;
+    }
+
+    cout << "List of books in the library:" << endl;
+    for (int i = 0; i < numBooks; ++i) {
+        cout << "Title: " << books[i].title << endl;
+        cout << "Author: " << books[i].author << endl;
+        cout << "Year: " << books[i].year << endl;
+        cout << "------------------------" << endl;
+    }
+}
+
+int main() {
+    int choice;
+    while (true) {
+        cout << "Library Management System" << endl;
+        cout << "1. Add Book" << endl;
+        cout << "2. Delete Book" << endl;
+        cout << "3. Display Books" << endl;
+        cout << "4. Exit" << endl;
+
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addBook();
+                break;
+            case 2:
+                deleteBook();
+                break;
+            case 3:
+                displayBooks();
+                break;
+            case 4:
+                cout << "Exiting the program. Goodbye!" << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+return 0;
+}
